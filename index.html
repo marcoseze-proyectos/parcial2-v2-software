@@ -1,51 +1,159 @@
+
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Aplicación para organizar y completar tareas diarias.">
   <title>Mis Tareas | Parcial 2</title>
   <link rel="stylesheet" href="./styles.css">
   <script defer src="./app.js"></script>
+  <script defer src="./estadisticas.js"></script>
 </head>
 <body>
   <main class="page">
     <header class="site-header">
-      <div class="brand"><span class="brand-mark" aria-hidden="true">✓</span><span>Task<span class="brand-emphasis">Flow</span></span></div>
+      <div class="brand">
+        <span class="brand-mark">✓</span>
+        <span>Task<span class="brand-emphasis">Flow</span></span>
+      </div>
       <span class="badge">INGENIERÍA DE SOFTWARE · PARCIAL 2</span>
     </header>
 
-    <section class="hero" aria-labelledby="titulo">
-      <div><p class="eyebrow">ORGANIZACIÓN PERSONAL</p><h1 id="titulo">Organizá tu día,<br><span class="gradient-text">tarea por tarea.</span></h1>
-      <p class="hero-description">Un espacio simple para registrar pendientes, establecer prioridades y seguir tu progreso.</p></div>
-      <div class="hero-icon" aria-hidden="true">✓</div>
+    <section class="hero">
+      <p class="eyebrow">ORGANIZACIÓN PERSONAL</p>
+      <h1 id="titulo">
+        Organizá tu día,<br>
+        <span class="gradient-text">tarea por tarea.</span>
+      </h1>
+      <p class="hero-description">
+        Un espacio simple para registrar pendientes,
+        establecer prioridades y seguir tu progreso.
+      </p>
     </section>
 
     <div class="layout">
-      <section class="panel new-task" aria-labelledby="nueva-tarea-titulo">
-        <div class="panel-heading"><div class="icon-circle" aria-hidden="true">+</div><div><p class="section-caption">CREAR</p><h2 id="nueva-tarea-titulo">Nueva tarea</h2></div></div>
+      <section class="panel new-task">
+        <div class="panel-heading">
+          <div class="icon-circle">+</div>
+          <div>
+            <p class="section-caption">CREAR</p>
+            <h2>Nueva tarea</h2>
+          </div>
+        </div>
+
         <form id="formulario-tarea">
           <label for="nombre-tarea">¿Qué necesitás hacer?</label>
-          <input id="nombre-tarea" name="nombre" type="text" placeholder="Ej.: Preparar presentación" maxlength="100" required autocomplete="off">
+          <input
+            id="nombre-tarea"
+            name="nombre"
+            type="text"
+            placeholder="Ej.: Preparar presentación"
+            maxlength="100"
+            required
+          >
+
           <label for="prioridad-tarea">Prioridad</label>
-          <select id="prioridad-tarea" name="prioridad"><option value="media">Media</option><option value="alta">Alta</option><option value="baja">Baja</option></select>
-          <button class="button-primary" type="submit"><span aria-hidden="true">＋</span> Agregar tarea</button>
-          <p class="form-hint">Tus tareas se guardan en este navegador.</p>
+          <select id="prioridad-tarea" name="prioridad">
+            <option value="media">Media</option>
+            <option value="alta">Alta</option>
+            <option value="baja">Baja</option>
+          </select>
+
+          <button class="button-primary" type="submit">
+            + Agregar tarea
+          </button>
+
+          <p class="form-hint">
+            Tus tareas se guardan en este navegador.
+          </p>
         </form>
       </section>
 
-      <section class="panel list-panel" aria-labelledby="listado-titulo">
-        <div class="list-heading"><div><p class="section-caption">SEGUIMIENTO</p><h2 id="listado-titulo">Mis tareas <span id="cantidad-tareas" class="count">0</span></h2></div><span id="pendientes" class="muted-count">0 pendientes</span></div>
-        <div class="filters" role="group" aria-label="Filtrar tareas">
-          <button class="filter-button active" type="button" data-filter="todas" aria-pressed="true">Todas</button>
-          <button class="filter-button" type="button" data-filter="pendientes" aria-pressed="false">Pendientes</button>
-          <button class="filter-button" type="button" data-filter="completadas" aria-pressed="false">Completadas</button>
+      <section class="panel list-panel">
+        <div class="list-heading">
+          <div>
+            <p class="section-caption">SEGUIMIENTO</p>
+            <h2>
+              Mis tareas
+              <span id="cantidad-tareas" class="count">0</span>
+            </h2>
+          </div>
+          <span id="pendientes" class="muted-count">0 pendientes</span>
         </div>
-        <ul id="lista-tareas" class="task-list" aria-live="polite"></ul>
-        <p id="mensaje-vacio" class="empty-message" hidden>No hay tareas para mostrar en esta categoría.</p>
+
+        <div class="filters">
+          <button class="filter-button active"
+                  data-filter="todas" aria-pressed="true">
+            Todas
+          </button>
+          <button class="filter-button"
+                  data-filter="pendientes" aria-pressed="false">
+            Pendientes
+          </button>
+          <button class="filter-button"
+                  data-filter="completadas" aria-pressed="false">
+            Completadas
+          </button>
+        </div>
+
+        <ul id="lista-tareas" class="task-list"></ul>
+
+        <p id="mensaje-vacio" class="empty-message" hidden>
+          No hay tareas para mostrar en esta categoría.
+        </p>
       </section>
     </div>
-    <footer class="site-footer">Parcial 2 · Ingeniería de Software · ISTEA · 2026</footer>
+
+    <!-- Nueva funcionalidad de la rama feature -->
+    <section class="panel stats-panel" id="estadisticas">
+      <div class="stats-head">
+        <div>
+          <p class="section-caption">NUEVA FUNCIONALIDAD</p>
+          <h2>Resumen de productividad</h2>
+        </div>
+        <button id="limpiar-completadas" class="button-outline">
+          Limpiar completadas
+        </button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat">
+          <span id="total-estadisticas">0</span>
+          <p>Total</p>
+        </div>
+
+        <div class="stat">
+          <span id="pendientes-estadisticas">0</span>
+          <p>Pendientes</p>
+        </div>
+
+        <div class="stat">
+          <span id="completadas-estadisticas">0</span>
+          <p>Completadas</p>
+        </div>
+      </div>
+
+      <div class="progress-heading">
+        <span>Progreso de tareas</span>
+        <strong id="porcentaje-estadisticas">0%</strong>
+      </div>
+
+      <div
+        class="progress-track"
+        id="progreso-tareas"
+        role="progressbar"
+        aria-label="Porcentaje completado"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0"
+      >
+        <div class="progress-bar" id="barra-progreso"></div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      Parcial 2 · Ingeniería de Software · ISTEA · 2026
+    </footer>
   </main>
 </body>
 </html>
